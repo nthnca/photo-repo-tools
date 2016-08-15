@@ -14,6 +14,23 @@ perfectly for my needs.
 The tools here are what make this system work well for me.
 
 
+# Set up photo repository
+
+- git init
+- git config core.compression 0
+- git config core.bigFileThreshold 1m
+- mkdir ARCHIVE/pack/
+- echo "../../ARCHIVE/" .git/objects/info/alternatives
+
+
+## Directory Structure
+
+- .git/ - GIT repo that contains all the image files
+- .git/objects/pack/ - Pack files. Created by running ‘git gc’
+- .git/objects/info/alternates - Points to ARCHIVE/pack/
+- ARCHIVE/pack/ - Pack files (this is what I back up to Google Drive)
+
+
 ## Add files to the photo repository
 
 - Dump files off SD card and move JPGs into their own directory
@@ -23,14 +40,6 @@ The tools here are what make this system work well for me.
 - git commit -a --amend
 
 
-## Directory Structure
-
-- .git/ - GIT repo that contains all the image files
-- .git/objects/pack/ - Pack files. Created by running ‘git gc’
-- .git/objects/info/alternates - Points to ARCHIVE/pack/
-- ARCHIVE/pack/ - Pack files (This is what I back up to Google Drive)
-
-
 ## Create a new pack file
 
 - git reflog expire --expire=all --all
@@ -38,6 +47,8 @@ The tools here are what make this system work well for me.
 - git prune
 - rename the pack file to something like 01-YEAR-SHA1
 - move the pack file to the ARCHIVE directories
+- add a .keep file
+- upload .pack file to backup system
 
 
 ## Restore (from pack files):
@@ -50,13 +61,3 @@ Pack files should be named <COUNT>-<YEAR>-<SHA1>
 - To generate the index and keep files for a pack file:
   - ./bin/generate
 - git fsck
-
-## Notes
-
-- jpeginfo -c  # Check for corrupted jpeg files.
-- rsync -rtv …
-- identify -verbose photo.jpg | grep "exif:"
-- exiftool -DateTimeOriginal+='0:0:100 0:0' SCAN_1232.jpg
-- exiftool -DateTimeOriginal='1995:1:1 5:06' SCAN_1232.jpg
-- X=0; for x in `ls -v`; do exiftool -DateTimeOriginal+="0:0:$X 0:0" $x;
-X=$((X+1)); done

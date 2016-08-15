@@ -1,3 +1,0 @@
-#!/bin/bash
-
-git verify-pack -v $1 | grep commit
