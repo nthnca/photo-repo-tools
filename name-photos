@@ -47,7 +47,7 @@ for file in *.JPG; do
   ID_FILE="$file.$TMP_POSTFIX"
   DATE=`grep $exif:DateTimeOri < "$ID_FILE" | cut -b 23- | tr ' ' - | tr -d :`
   MODEL_TMP=`grep $exif:Model < "$ID_FILE" | cut -b 12-`
-  MODEL_RES=$(grep $MODEL_TMP map.id_tmp)
+  MODEL_RES=`grep $MODEL_TMP map.id_tmp`
   MODEL=${MODEL_RES#*=}
 
   if [ "$MODEL" = "" ]; then
