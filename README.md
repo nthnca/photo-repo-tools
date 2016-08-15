@@ -16,48 +16,48 @@ The tools here are what make this system work well for me.
 
 # Set up photo repository
 
-- git init
-- git config core.compression 0
-- git config core.bigFileThreshold 1m
-- mkdir ARCHIVE/pack/
-- echo "../../ARCHIVE/" .git/objects/info/alternatives
+- `git init`
+- `git config core.compression 0`
+- `git config core.bigFileThreshold 1m`
+- `mkdir -p ARCHIVE/pack/`
+- `echo "../../ARCHIVE/" > .git/objects/info/alternates`
 
 
 ## Directory Structure
 
-- .git/ - GIT repo that contains all the image files
-- .git/objects/pack/ - Pack files. Created by running ‘git gc’
-- .git/objects/info/alternates - Points to ARCHIVE/pack/
-- ARCHIVE/pack/ - Pack files (this is what I back up to Google Drive)
+- `.git/` - git repo that contains all the image files
+- `.git/objects/pack/` - pack files, created by running `git gc`
+- `.git/objects/info/alternates` - points to `ARCHIVE/pack/`
+- `ARCHIVE/pack/` - pack files, these are what are backed up to Google Drive
 
 
 ## Add files to the photo repository
 
-- Dump files off SD card and move JPGs into their own directory
-- Run name-photos
-- git add *.jpg; git commit -m "Temp commit"
-- Do initial pass, deleting all the photos I know I don't want
-- git commit -a --amend
+- dump files off SD card and move JPGs into their own directory
+- run `name-photos`
+- `git add *.jpg; git commit -m "Temp commit"`
+- do initial pass, deleting unwanted photos
+- `git commit -a --amend`
 
 
 ## Create a new pack file
 
-- git reflog expire --expire=all --all
-- git gc (to merge everything into one pack file)
-- git prune
-- rename the pack file to something like 01-YEAR-SHA1
-- move the pack file to the ARCHIVE directories
-- add a .keep file
-- upload .pack file to backup system
+- `git reflog expire --expire=all --all`
+- `git gc` - merges everything into one pack file
+- `git prune`
+- there should be a pack file in `.git/objects/pack/`
+- if file is relatively small
+  - just upload it to backup site
+- if it is big enough, I usually wait until 3-4 GB, then
+  - rename the pack file to something like `XX-YEAR-COMMIT-SHA1`
+  - move it to `ARCHIVE/pack/`
+  - create an empty file with the same name but `.keep` instead of `.pack`
+  - upload it to backup site
 
 
 ## Restore (from pack files):
 
-Pack files should be named <COUNT>-<YEAR>-<SHA1>
-
-- To verify shasum *.pack
-- To find the commits that a given pack file contains:
-  - ./bin/list-commits pack/*.pack
-- To generate the index and keep files for a pack file:
-  - ./bin/generate
-- git fsck
+- copy all the backup pack files into `ARCHIVE/pack/`
+- `generate-index`
+- `git fsck`
+- `git reset --hard COMMIT`
