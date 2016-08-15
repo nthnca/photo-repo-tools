@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# NamePictures.sh *.JPG
+# name_pictures.sh
 #
 # Rename photos in a way that is more meaningful and less likely to colide when
 # you are using multiple cameras. {DATE}-{TIME}-{CAMERA}-{ORIGINAL_NAME}.jpg
@@ -14,7 +14,7 @@ if [ $# -gt 0 ]; then
   TEST="Dry run: "
 fi
 
-# You will want to add your camera names to this map.
+# Add more camera names to this map as necessary.
 cat << EOF > $TMP_CAMERA_NAMES
 DMC-GX7=GX7
 DMC-LX3=LX3
@@ -24,7 +24,7 @@ EOF
 # larger batches doesn't make much improvement, and eventually much worse.
 COUNT=0
 MAX_PROCESSES=4
-for file in *.jpg; do
+for file in *.JPG; do
   echo "Processing $file ..."
 
   if [ ! -e "$file.$TMP_POSTFIX" ]; then
@@ -43,7 +43,7 @@ done
 wait
 
 # Do the actual renaming.
-for file in *.jpg; do
+for file in *.JPG; do
   ID_FILE="$file.$TMP_POSTFIX"
   DATE=`grep $exif:DateTimeOri < "$ID_FILE" | cut -b 23- | tr ' ' - | tr -d :`
   MODEL_TMP=`grep $exif:Model < "$ID_FILE" | cut -b 12-`
@@ -65,5 +65,7 @@ for file in *.jpg; do
   fi
 done
 
-# Clean up.
-rm -f *."$TMP_POSTFIX"
+# Clean up if we aren't doing a dry run.
+if [ -z "$TEST" ]; then
+  rm -f *."$TMP_POSTFIX"
+fi

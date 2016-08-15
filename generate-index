@@ -1,0 +1,7 @@
+#!/bin/bash
+
+for file in pack/*.pack; do
+  echo $file
+  git index-pack $file > /dev/null
+  touch ${file%pack}keep 
+done
