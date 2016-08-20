@@ -16,6 +16,7 @@ fi
 
 # Add more camera names to this map as necessary.
 cat << EOF > $TMP_CAMERA_NAMES
+=SCAN
 DMC-GX7=GX7
 DMC-LX3=LX3
 EOF
@@ -47,8 +48,9 @@ for file in *.JPG; do
   ID_FILE="$file.$TMP_POSTFIX"
   DATE=`grep $exif:DateTimeOri < "$ID_FILE" | cut -b 23- | tr ' ' - | tr -d :`
   MODEL_TMP=`grep $exif:Model < "$ID_FILE" | cut -b 12-`
-  MODEL_RES=`grep $MODEL_TMP map.id_tmp`
-  MODEL=${MODEL_RES#*=}
+
+  MODEL_RES=`grep "^$MODEL_TMP"= map.id_tmp`
+  MODEL="${MODEL_RES#*=}"
 
   if [ "$MODEL" = "" ]; then
     echo "The model type '$MODEL_TMP' wasn't recognized."
