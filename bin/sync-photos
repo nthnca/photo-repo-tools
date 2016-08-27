@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [ $# -ne 2 ]; then
+  echo "Need a source and a destination."
+  exit 1
+fi
+
+rsync -r --size-only --stats \
+    ${1}/ARCHIVE/GIT/objects/pack/ ${2}/ARCHIVE/GIT/objects/pack/
+rsync -r --size-only --stats \
+    ${1}/ARCHIVE/pack/ ${2}/ARCHIVE/pack/
