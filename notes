@@ -1,20 +1,9 @@
-
-## Notes
+# Random items
 
 - jpeginfo -c  # Check for corrupted jpeg files.
-- rsync -rtv …
 - identify -verbose photo.jpg | grep "exif:"
 - exiftool -DateTimeOriginal+='0:0:100 0:0' SCAN_1232.jpg
 - exiftool -DateTimeOriginal='1995:1:1 5:06' SCAN_1232.jpg
 - X=0; for x in `ls -v`; do exiftool -DateTimeOriginal+="0:0:$X 0:0" $x;
 X=$((X+1)); done
 - List commits in a pack file: git verify-pack -v $1 | grep commit
-
-## Extra
-
-- To verify shasum *.pack
-- To find the commits that a given pack file contains:
-  - ./bin/list-commits pack/*.pack
-- To generate the index and keep files for a pack file:
-  - ./bin/generate
-- git fsck
