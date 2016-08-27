@@ -1,0 +1,8 @@
+#!/bin/bash
+
+TMP1="abc123tmptmptmp"
+TMP2="xabc123tmptmptmp"
+
+find {1,2}* -type f > $TMP1
+perl -MList::Util=shuffle -e 'print shuffle(<STDIN>);' < $TMP1 > $TMP2
+cp `head -n 50 $TMP2` random/
