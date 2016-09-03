@@ -18,5 +18,10 @@ git config core.compression 0
 mkdir -p ARCHIVE/pack/
 echo "../../ARCHIVE/" > .git/objects/info/alternates
 
+cat << EOF > .gitignore
+# The ARCHIVE folder isn't version controlled.
+ARCHIVE
+EOF
+
 # This is just for convenience when using graphical file managers.
 ln -s ../.git ARCHIVE/GIT
