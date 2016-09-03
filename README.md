@@ -17,17 +17,23 @@ The tools here are what make this system work well for me.
 
 ## `photo-init`
 
-This creates a git repository in your current working directory, sets a couple
-of configuration settings that optimizes the git repository for storing
-photographs, and creates the ARCHIVE directory.
+This command initializes a new repository in your current working directory
+for your photos. Specifically it:
+
+- creates a new git repository.
+- sets a couple of configuration settings that optimizes the git repository for
+  storing photographs.
+- creates the ARCHIVE directory.
+
 
 ## `photo-pack`
 
 Run this at any point when you want to create an incremental backup of
 everything you have commited to your git repository. The new .pack file will be
-placed in ARCHIVE/pack/
+placed in `ARCHIVE/pack/`
 
-The pack files are named as <ARG1>-<YEAR-MONTH>-<COMMIT-SHA1>-<PACK-SHA1>.pack
+The pack files are named as
+`&gt;ARG1&lt;-&gt;YEAR-MONTH&lt;-&gt;COMMIT-SHA1&lt;-<PACK-SHA1>`.pack
 where ARG1 is the first argument given to photo-pack, YEAR-MONTH is the current
 year and month, COMMIT-SHA1 is the sha1 of the most recent commit, and the
 PACK-SHA1 is the SHA1 of the pack file itself.
