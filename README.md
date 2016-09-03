@@ -13,9 +13,9 @@ perfectly for my needs.
 
 The tools here are what make this system work well for me.
 
-# Basic usage
+## Basic usage
 
-## `photo-init`
+### `photo-init`
 
 This command initializes a new repository in your current working directory
 for your photos. Specifically it:
@@ -26,7 +26,7 @@ for your photos. Specifically it:
 - creates the ARCHIVE directory.
 
 
-## `photo-pack`
+### `photo-pack`
 
 Run this at any point when you want to create an incremental backup of
 everything you have commited to your git repository. The new .pack file will be
@@ -38,7 +38,8 @@ argument given to photo-pack, YEAR-MONTH is the current year and month,
 COMMIT-SHA1 is the sha1 of the most recent commit, and the PACK-SHA1 is the
 SHA1 of the pack file itself.
 
-## `photo-index`
+
+### `photo-index`
 
 You use this command if you ever want to restore your photos from your backup.
 The steps would be:
@@ -51,9 +52,30 @@ The steps would be:
   COMMIT-SHA1 you use is from the most recent pack file you have.
 
 
-# Other stuff
+## Utilities
 
-## Directory Structure
+The rest of the commands are not necessary but help with my workflow.
+
+
+### `photo-name`
+
+The cameras I use tend to have somewhat meaningless names as well as when I am
+using multiple cameras they often overlap with each other. This utility takes
+an image file and names it like `<DATE>-<TIME>-<CAMERA>-<ORIGINAL_NAME>.jpg`.
+
+In order to use this you need the ImageMagick command line utilities installed
+on your computer.
+
+
+### `photo-random`
+
+
+### `photo-summary`
+
+
+## Other stuff
+
+### Directory Structure
 
 - `.git/` - git repo that contains all the image files
 - `.git/objects/pack/` - pack files, created by running `git gc`
@@ -61,7 +83,7 @@ The steps would be:
 - `ARCHIVE/pack/` - pack files, these are what are backed up to Google Drive
 
 
-## Add files to the photo repository
+### Add files to the photo repository
 
 - dump files off SD card and move JPGs into their own directory
 - run `name-photos`
