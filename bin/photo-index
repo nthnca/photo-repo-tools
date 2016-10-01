@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -eu
+
+if [ ! -d .git ]; then
+  >&2 echo "This isn't a git repository"
+  exit 1
+fi
+
+for pack in ARCHIVE/pack/*.pack; do
+  [ -e "$pack" ] || { >&2 echo "no pack files"; exit 1; }
+
+  idx="${pack%pack}idx"
+
+  echo "Processing: $pack"
+  [ -e "$idx" ] || git index-pack "$pack" > /dev/null
+done

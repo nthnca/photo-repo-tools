@@ -1,7 +1,0 @@
-#!/bin/bash
-
-for file in ARCHIVE/pack/*.pack; do
-  echo $file
-  git index-pack $file > /dev/null
-  touch ${file%pack}keep 
-done
