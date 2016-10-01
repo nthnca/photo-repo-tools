@@ -1,0 +1,47 @@
+#!/bin/bash
+
+set -eu
+
+if [ ! -d .git ]; then
+  >&2 echo "this isn't a git repository"
+  exit 1
+fi
+
+if ! git diff --exit-code >/dev/null; then
+  >&2 echo "files have been modified but not commited"
+  exit 1
+fi
+
+if ! git diff --cached --exit-code >/dev/null; then
+  >&2 echo "changes have been added but not commited"
+  exit 1
+fi
+
+git reflog expire --expire=all --all
+git gc
+git prune
+
+# Find the pack files that we just created.
+PACK=$(ls .git/objects/pack/*pack)
+if [ ! -e "$PACK" ]; then
+  >&2 echo "Too many pack files $PACK"
+  exit 1
+fi
+PRE_SRC="${PACK%.pack}"
+
+# Determine proper name for this new pack file.
+COMMIT=$(git log -1 --pretty=format:%H)
+PACK=$(shasum "${PRE_SRC}.pack" | cut -d " " -f 1)
+
+# TODO: We shouldn't need the user to pass in a $1.
+TARGET=$(printf "$1-%s-%.6s-%.10s\n" $(date "+%Y%m") "$COMMIT" "$PACK")
+
+PRE=ARCHIVE/pack/${TARGET}
+if [ -e ${PRE}.pack -o -e ${PRE}.idx ]; then
+  >&2 echo "pack files of the same name already exist"
+  exit 1
+fi
+
+# Don't need a .keep file since in the *alternates* directory.
+mv "${PRE_SRC}.pack" "${PRE}.pack"
+mv "${PRE_SRC}.idx" "${PRE}.idx"
