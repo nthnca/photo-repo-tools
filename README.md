@@ -33,19 +33,20 @@ everything you have commited to your git repository. The new .pack file will be
 placed in `ARCHIVE/pack/`
 
 The pack files are named as
-`&gt;ARG1&lt;-&gt;YEAR-MONTH&lt;-&gt;COMMIT-SHA1&lt;-<PACK-SHA1>`.pack
-where ARG1 is the first argument given to photo-pack, YEAR-MONTH is the current
-year and month, COMMIT-SHA1 is the sha1 of the most recent commit, and the
-PACK-SHA1 is the SHA1 of the pack file itself.
+`<ARG1>-<YEAR-MONTH>-<COMMIT-SHA1>-<PACK-SHA1>`.pack where ARG1 is the first
+argument given to photo-pack, YEAR-MONTH is the current year and month,
+COMMIT-SHA1 is the sha1 of the most recent commit, and the PACK-SHA1 is the
+SHA1 of the pack file itself.
 
 ## `photo-index`
 
 You use this command if you ever want to restore your photos from your backup.
 The steps would be:
 
-- `photo-init`: to create your repository you are restoring things into.
-- copy all your backed up pack files into `ARCHIVE/pack/`
-- `photo-index`: this will re-generate all the .idx files for your pack files.
+- run `photo-init` to create the repository you are restoring things into.
+- copy all your backed up pack files into `ARCHIVE/pack/`.
+- run `photo-index` this will re-generate all the .idx files for your pack
+  files.
 - `git reset --hard COMMIT-SHA1`: this should restore everything. The
   COMMIT-SHA1 you use is from the most recent pack file you have.
 
