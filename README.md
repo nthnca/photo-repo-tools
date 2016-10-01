@@ -13,15 +13,38 @@ perfectly for my needs.
 
 The tools here are what make this system work well for me.
 
+# Basic usage
 
-# Set up photo repository
+## `photo-init`
 
-- `git init`
-- `git config core.compression 0`
-- `git config core.bigFileThreshold 1m`
-- `mkdir -p ARCHIVE/pack/`
-- `echo "../../ARCHIVE/" > .git/objects/info/alternates`
+This creates a git repository in your current working directory, sets a couple
+of configuration settings that optimizes the git repository for storing
+photographs, and creates the ARCHIVE directory.
 
+## `photo-pack`
+
+Run this at any point when you want to create an incremental backup of
+everything you have commited to your git repository. The new .pack file will be
+placed in ARCHIVE/pack/
+
+The pack files are named as <ARG1>-<YEAR-MONTH>-<COMMIT-SHA1>-<PACK-SHA1>.pack
+where ARG1 is the first argument given to photo-pack, YEAR-MONTH is the current
+year and month, COMMIT-SHA1 is the sha1 of the most recent commit, and the
+PACK-SHA1 is the SHA1 of the pack file itself.
+
+## `photo-index`
+
+You use this command if you ever want to restore your photos from your backup.
+The steps would be:
+
+- `photo-init`: to create your repository you are restoring things into.
+- copy all your backed up pack files into `ARCHIVE/pack/`
+- `photo-index`: this will re-generate all the .idx files for your pack files.
+- `git reset --hard COMMIT-SHA1`: this should restore everything. The
+  COMMIT-SHA1 you use is from the most recent pack file you have.
+
+
+# Other stuff
 
 ## Directory Structure
 
@@ -38,26 +61,3 @@ The tools here are what make this system work well for me.
 - `git add *.jpg; git commit -m "Temp commit"`
 - do initial pass, deleting unwanted photos
 - `git commit -a --amend`
-
-
-## Create a new pack file
-
-- `git reflog expire --expire=all --all`
-- `git gc` - merges everything into one pack file
-- `git prune`
-- there should be a pack file in `.git/objects/pack/`
-- if file is relatively small
-  - just upload it to backup site
-- if it is big enough, I usually wait until 3-4 GB, then
-  - rename the pack file to something like `XX-YEAR-COMMIT-SHA1`
-  - move it to `ARCHIVE/pack/`
-  - create an empty file with the same name but `.keep` instead of `.pack`
-  - upload it to backup site
-
-
-## Restore (from pack files):
-
-- copy all the backup pack files into `ARCHIVE/pack/`
-- `generate-index`
-- `git fsck`
-- `git reset --hard COMMIT`
