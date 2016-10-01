@@ -1,0 +1,22 @@
+#!/bin/bash
+
+set -eu
+
+if [ -d .git ]; then
+  >&2 echo "git repository already exists"
+  exit 1
+fi
+
+git init
+
+# Photos can't really be compressed anyway, so don't try.
+git config core.bigFileThreshold 1m
+
+# Speeds up pack file creation, core.looseCompression may be good enough.
+git config core.compression 0
+
+mkdir -p ARCHIVE/pack/
+echo "../../ARCHIVE/" > .git/objects/info/alternates
+
+# This is just for convenience when using graphical file managers.
+ln -s ../.git ARCHIVE/GIT
