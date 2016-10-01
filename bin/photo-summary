@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo "Dir       Files      MBs    Avg"
+
+for x in {1,2}*; do
+  A=$(ls $x | wc -l)
+  B=$(du -shm $x | cut -f 1)
+  printf "%-8s %6s %8s %6s\n" $x $A $B $((B*10/A))
+done
