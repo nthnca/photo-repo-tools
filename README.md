@@ -69,8 +69,13 @@ on your computer.
 
 ### `photo-random`
 
+Randomly select a set of photos from the given directories and put them into
+the directory `random`.
+
 
 ### `photo-summary`
+
+Simple summary of the given directories.
 
 
 ## Other stuff
