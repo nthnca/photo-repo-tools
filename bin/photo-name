@@ -19,6 +19,16 @@ cat << EOF > $TMP_CAMERA_NAMES
 =SCAN
 DMC-GX7=GX7
 DMC-LX3=LX3
+Nexus 7=Nexus7
+Nexus 4=Nexus4
+Nexus 5=Nexus5
+Nexus 5X=Nexus5X
+Nexus 10=Nexus10
+Moto G (4)=MotoG4
+MotoE2(4G-LTE)=MotoE2
+Galaxy Nexus=GalaxyNexus
+Vespa=Vespa
+SM-G900W8=GalaxyS5
 EOF
 
 # Processing the files in batches of 4 seems to be 2-4 times faster, moving to
